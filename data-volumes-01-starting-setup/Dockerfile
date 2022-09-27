@@ -19,7 +19,7 @@ EXPOSE 80
 # exact location is uknown to you. Managed via docker volume commands.
 # with docker volume ls ---> we get all volumes managed by this container 
 # anonymous volume exists only as container exists 
-VOLUME [ "/app/feedback" ]
+# VOLUME [ "/app/feedback" ]
 
 # command which i want to execute when a container is started based on this image 
 CMD ["node", "server.js"]
@@ -62,4 +62,22 @@ CMD ["node", "server.js"]
 # named volumes are not attached to a container
 # if i create a new container with same volume name the data will be still there with the help of named volumes 
 # you can delete all anonymous volumes with the following command docker volume prune 
+# whenever we are change anything in our source code our chnges are not reflected inside our running container 
+# unless we rebuild the image 
+# During development will be very important for us changes inside our local machine server detected inside of docker container
+# That is where Bind mounts have some similarities with volumes 
+# Volumes are managed by Docker and we do not where on our host machine file system they are. 
+# With bind mounts we define a folder/path on your local machine or server to which the container should be mapped on our host machine 
+# containers can not just write to volumes, but also read from there, we could put our source code in such a bind mount 
+# and if we do that, we could then make sure that the container is aware of that and that source code is actually not used from that copied in snapshot
 
+# Bind Mounts (Managed By Developer)
+# You define a folder/path on your host machine
+# Great for persistent, editable (by you data)(e.g source code)
+# Named Volumes can help us with persistent data, 
+# but editing is not really possible, since we do not know where is in our local machine 
+# Bind Mounts does not affect the image only the container 
+# and therefore we have to set up a bind mount when e run a container
+
+# if we have a container and we do not have a volume, and a bind mount , we can mount both into container with the -V flag 
+# That means tha some folders inside of the container are mounted, or are connected to folders on the host machine 
